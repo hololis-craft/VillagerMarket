@@ -135,6 +135,17 @@ public class ShopItem {
         return mode;
     }
 
+    public void setMode(ItemMode mode) {
+        if (!isItemTrade()) {
+            if (!this.isAdmin && mode == COMMAND) {
+                throw new IllegalStateException("Cannot set command mode on non-admin shops");
+            }
+            this.mode = mode;
+        } else {
+            throw new IllegalStateException("Cannot set mode on item trade items");
+        }
+    }
+
     public int getLimit() {
         return limit;
     }
@@ -161,6 +172,10 @@ public class ShopItem {
 
     public LimitMode getLimitMode() {
         return limitMode;
+    }
+
+    public void setLimitMode(LimitMode limitMode) {
+        this.limitMode = limitMode;
     }
 
     public String getCooldown() {
