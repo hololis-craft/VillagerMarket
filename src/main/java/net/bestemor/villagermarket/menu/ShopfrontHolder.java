@@ -135,4 +135,15 @@ public class ShopfrontHolder {
         itemList.put(slot, item);
         update();
     }
+
+    /**
+     * Adds an ItemStack to the item list.
+     *
+     * @param slot the slot to add the item to.
+     * @param item the ItemStack to add.
+     */
+    public void addItem(int slot, ItemStack item) {
+        itemList.put(slot, new ShopItem(plugin, shop, item, slot));
+        update();
+    }
 }
