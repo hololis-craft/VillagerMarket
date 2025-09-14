@@ -404,18 +404,13 @@ public class ShopItem {
             builder.replace("%price%", ConfigManager.getString("quantity.free"));
             builder.replace("%price_per_unit%", ConfigManager.getString("quantity.free"));
         } else if (mode != BUY_AND_SELL) {
-            BigDecimal finalPrice = mode == SELL ? getBuyPrice(amount, true) : getSellPrice(amount, true);
             if (discount > 0) {
                 ChatColor c = VMUtils.getCodeBeforePlaceholder(ConfigManager.getStringList(lorePath), "%price%");
-                String prePrice = ConfigManager.getCurrencyBuilder("%price%")
-                        .replaceCurrency("%price%", mode == SELL ? getSellPrice(amount, false) : getBuyPrice(amount, false))
-                        .build();
-                String currentPrice = ConfigManager.getCurrencyBuilder("%price%")
-                        .replaceCurrency("%price%", finalPrice)
-                        .build();
+                String prePrice = ConfigManager.getCurrencyBuilder("%price%").replaceCurrency("%price%", getSellPrice(amount, false)).build();
+                String currentPrice = ConfigManager.getCurrencyBuilder("%price%").replaceCurrency("%price%", getSellPrice(amount, true)).build();
                 builder.replace("%price%", "§m" + prePrice + c + " " + currentPrice);
             } else {
-                builder.replaceCurrency("%price%", finalPrice);
+                builder.replaceCurrency("%price%", getSellPrice(amount, false));
             }
             builder.replaceCurrency("%price_per_unit%", getSellPrice().divide(BigDecimal.valueOf(getAmount()), RoundingMode.HALF_UP));
         } else {
